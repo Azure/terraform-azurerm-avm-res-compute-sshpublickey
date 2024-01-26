@@ -199,3 +199,11 @@ variable "tags" {
   default     = {}
 }
 
+variable "public_key" {
+  type = map(object({
+    name = ""
+    key  = ""
+  }))
+  description = "SSH Public Key configuration"
+  default = {}
+}

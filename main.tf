@@ -30,3 +30,10 @@ resource "azurerm_role_assignment" "this" {
   skip_service_principal_aad_check       = each.value.skip_service_principal_aad_check
   delegated_managed_identity_resource_id = each.value.delegated_managed_identity_resource_id
 }
+
+resource "azurerm_ssh_public_key" "this" {
+  name  = var.public_key.name
+  resource_group_name = var.resource_group_name
+  location            = local.resource_group_location
+  public_key          = var.public_key.key
+}
