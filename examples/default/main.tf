@@ -37,6 +37,11 @@ module "naming" {
   version = ">= 0.3.0"
 }
 
+resource "tls_private_key" "example" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
 # This is required for resource modules
 resource "azurerm_resource_group" "this" {
   location = module.regions.regions[random_integer.region_index.result].name
@@ -54,7 +59,7 @@ module "test" {
   enable_telemetry    = var.enable_telemetry # see variables.tf
   name                = "mytestkey"
   resource_group_name = azurerm_resource_group.this.name
-  public_key          = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiRzNAH4gEPpHvd4Qmhtwt8PmxuBNAGyuCADJbD447kcq+zHdFqhIPUQArfJAy/f+KMHEWTMd8zW1wx/NDFM/LJ1Jq9rpEDJLnvv1knwKeQMM7wrpQ4sG/Hp7RW1OVNiqyxREcfrccLxyXknrQsqea53QkSUuXKDym+SwtYlguudL/VT1ITScsYl5f9D5IqOVDq2JIfs8W+4klVzpK1Ap5/EdXvSMVBgGtvlIZjqOZFbT9bMvPLr4IXgVPWd++/zCD3cTnBVr8edbBIj33JqwVc99tM0nFocXjr+H6BVJ6B0h3oPDHjenIIbAoSOSyruJ6HYYFM+p+syvRDADuRqKwwIDAQAB"
+  public_key          = tls_private_key.example.public_key_openssh
   tags = {
     key            = "avm-res-compute-publicsshkey"
     "hidden-title" = "Test SSH Key"
