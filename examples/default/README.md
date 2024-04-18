@@ -15,6 +15,10 @@ terraform {
       source  = "hashicorp/random"
       version = ">= 3.5.0, < 4.0.0"
     }
+    tls = {
+      source  = "hashicorp/tls"
+      version = ">= 4.0.5"
+    }
   }
 }
 
@@ -85,6 +89,8 @@ The following requirements are needed by this module:
 
 - <a name="requirement_random"></a> [random](#requirement\_random) (>= 3.5.0, < 4.0.0)
 
+- <a name="requirement_tls"></a> [tls](#requirement\_tls) (>= 4.0.5)
+
 ## Providers
 
 The following providers are used by this module:
@@ -93,7 +99,7 @@ The following providers are used by this module:
 
 - <a name="provider_random"></a> [random](#provider\_random) (>= 3.5.0, < 4.0.0)
 
-- <a name="provider_tls"></a> [tls](#provider\_tls)
+- <a name="provider_tls"></a> [tls](#provider\_tls) (>= 4.0.5)
 
 ## Resources
 
