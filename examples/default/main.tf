@@ -65,7 +65,7 @@ module "test" {
   # source             = "Azure/avm-<res/ptn>-<name>/azurerm"
   # ...
   enable_telemetry    = var.enable_telemetry # see variables.tf
-  name                = "mytestkey"
+  name                = "sshkeyexample"
   resource_group_name = azurerm_resource_group.this.name
   public_key          = tls_private_key.example.public_key_openssh
   tags = {
