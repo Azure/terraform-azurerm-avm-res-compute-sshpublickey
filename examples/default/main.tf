@@ -9,11 +9,19 @@ terraform {
       source  = "hashicorp/random"
       version = ">= 3.5.0, < 4.0.0"
     }
+    tls = {
+      source  = "hashicorp/tls"
+      version = ">= 4.0.5"
+    }
   }
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
 }
 
 
@@ -26,8 +34,8 @@ module "regions" {
 
 # This allows us to randomize the region for the resource group.
 resource "random_integer" "region_index" {
-  min = 0
   max = length(module.regions.regions) - 1
+  min = 0
 }
 ## End of section to provide a random Azure region for the resource group
 
@@ -37,10 +45,15 @@ module "naming" {
   version = ">= 0.3.0"
 }
 
+resource "tls_private_key" "example" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
 # This is required for resource modules
 resource "azurerm_resource_group" "this" {
-  name     = module.naming.resource_group.name_unique
   location = module.regions.regions[random_integer.region_index.result].name
+  name     = module.naming.resource_group.name_unique
 }
 
 # This is the module call
@@ -52,6 +65,12 @@ module "test" {
   # source             = "Azure/avm-<res/ptn>-<name>/azurerm"
   # ...
   enable_telemetry    = var.enable_telemetry # see variables.tf
-  name                = ""                   # TODO update with module.naming.<RESOURCE_TYPE>.name_unique
+  name                = "sshkeyexample"
   resource_group_name = azurerm_resource_group.this.name
+  public_key          = tls_private_key.example.public_key_openssh
+  tags = {
+    key            = "avm-res-compute-publicsshkey"
+    "hidden-title" = "Test SSH Key"
+    integers       = 123
+  }
 }
