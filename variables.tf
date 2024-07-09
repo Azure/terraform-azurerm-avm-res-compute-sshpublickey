@@ -25,6 +25,12 @@ variable "resource_group_name" {
   description = "The resource group where the resources will be deployed."
 }
 
+variable "create_resource_group" {
+  type        = bool
+  default     = false
+  description = "If true will create a resource group, otherwise will use the existing resource group supplied in resource_group_name"
+}
+
 variable "enable_telemetry" {
   type        = bool
   default     = true
