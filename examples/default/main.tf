@@ -68,6 +68,7 @@ module "test" {
   name                = "sshkeyexample"
   resource_group_name = azurerm_resource_group.this.name
   public_key          = tls_private_key.example.public_key_openssh
+  location            = azurerm_resource_group.this.location
   tags = {
     key            = "avm-res-compute-publicsshkey"
     "hidden-title" = "Test SSH Key"
