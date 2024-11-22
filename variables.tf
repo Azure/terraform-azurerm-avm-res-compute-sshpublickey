@@ -1,3 +1,9 @@
+variable "location" {
+  type        = string
+  description = "The Azure location where the resources will be deployed."
+  nullable    = false
+}
+
 variable "name" {
   type        = string
   description = "The name of the this resource."
@@ -27,12 +33,6 @@ This variable controls whether or not telemetry is enabled for the module.
 For more information see <https://aka.ms/avm/telemetryinfo>.
 If it is set to false, then no telemetry will be collected.
 DESCRIPTION
-}
-
-variable "location" {
-  type        = string
-  description = "The Azure location where the resources will be deployed."
-  nullable    = false
 }
 
 variable "lock" {
@@ -77,7 +77,6 @@ variable "role_assignments" {
     principal_type                         = optional(string, null)
   }))
   default     = {}
-  nullable    = false
   description = <<DESCRIPTION
   A map of role assignments to create on the <RESOURCE>. The map key is deliberately arbitrary to avoid issues where map keys maybe unknown at plan time.
   
@@ -92,6 +91,7 @@ variable "role_assignments" {
   
   > Note: only set `skip_service_principal_aad_check` to true if you are assigning a role to a service principal.
   DESCRIPTION
+  nullable    = false
 }
 
 # tflint-ignore: terraform_unused_declarations
