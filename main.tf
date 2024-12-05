@@ -1,9 +1,3 @@
-data "azurerm_resource_group" "parent" {
-  count = var.location == null ? 1 : 0
-
-  name = var.resource_group_name
-}
-
 # required AVM resources interfaces
 resource "azurerm_management_lock" "this" {
   count = var.lock != null ? 1 : 0
@@ -27,7 +21,7 @@ resource "azurerm_role_assignment" "this" {
 }
 
 resource "azurerm_ssh_public_key" "this" {
-  location            = local.resource_group_location
+  location            = var.location
   name                = var.name
   public_key          = var.public_key
   resource_group_name = var.resource_group_name
