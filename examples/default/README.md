@@ -6,6 +6,7 @@ This deploys the module in its simplest form.
 ```hcl
 terraform {
   required_version = ">= 1.3.0"
+
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -68,13 +69,14 @@ resource "azurerm_resource_group" "this" {
 # with a data source.
 module "test" {
   source = "../../"
+
+  location            = azurerm_resource_group.this.location
+  name                = "sshkeyexample"
+  public_key          = tls_private_key.example.public_key_openssh
+  resource_group_name = azurerm_resource_group.this.name
   # source             = "Azure/avm-<res/ptn>-<name>/azurerm"
   # ...
-  enable_telemetry    = var.enable_telemetry # see variables.tf
-  name                = "sshkeyexample"
-  resource_group_name = azurerm_resource_group.this.name
-  public_key          = tls_private_key.example.public_key_openssh
-  location            = azurerm_resource_group.this.location
+  enable_telemetry = var.enable_telemetry # see variables.tf
   tags = {
     key            = "avm-res-compute-publicsshkey"
     "hidden-title" = "Test SSH Key"
